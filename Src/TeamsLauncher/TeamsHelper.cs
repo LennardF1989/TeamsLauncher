@@ -8,6 +8,7 @@ namespace TeamsLauncher
     {
         private static readonly string[] _requiredDirectories =
         {
+            "Desktop",
             "Downloads"
         };
 

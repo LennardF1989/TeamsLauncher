@@ -6,7 +6,7 @@ Also includes a crude UI to configure your instances and easily access them from
 ## How does it work?
 Microsoft Teams relies on a User Profile to operate. 
 
-This tool overrides the Environment Variable of the User Profile prior to starting an instance. This allows you to run an infinite number Microsoft Teams instances side-by-side.
+This tool overrides the Environment Variable of the User Profile prior to starting an instance. This allows you to run an infinite number of Microsoft Teams instances side-by-side.
 
 ## What is included?
 There are two executables included:
@@ -19,7 +19,7 @@ TeamsLauncher.exe is the command-line version and only takes a 0 or 1 arguments.
 - When 1 argument is provided, it will start a Microsoft Teams instance using that alias.
 
 ### TeamsLauncher.UI.exe
-TeamsLauncher.UI.exe is the UI version and runs continiously.
+TeamsLauncher.UI.exe is the UI version and runs continuously.
 - The UI can be used to add/remove instances.
 - A traybar icon will be enabled, allowing you to quickly switch between instances.
 

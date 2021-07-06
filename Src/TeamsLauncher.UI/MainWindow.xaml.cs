@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ using System.Windows.Media.Imaging;
 using TeamsLauncher.UI.Annotations;
 using TeamsLauncher.UI.Models;
 using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 using XmlConvert = TeamsLauncher.UI.Helpers.XmlConvert;
 
 namespace TeamsLauncher.UI
@@ -37,6 +39,11 @@ namespace TeamsLauncher.UI
 
         public bool IsInstanceSelected => SelectedInstance != null;
 
+        private static readonly string TITLE = "TeamsLauncher UI";
+        private static readonly string RESOURCE_ICON = "pack://application:,,,/app.ico";
+        private static readonly string FILE_INSTANCES = "instances.cfg";
+        private static readonly string FILE_CONFIGURATION = "configuration.xml";
+
         private NotifyIcon _notifyIcon;
         private ContextMenuStrip _contextMenuStrip;
         private TeamsInstance _selectedInstance;
@@ -50,11 +57,13 @@ namespace TeamsLauncher.UI
             LaunchTeams();
 
             InitializeComponent();
+
+            Title = $"{TITLE} {GetVersion()}";
         }
 
         private void SetupWindow()
         {
-            Icon = new BitmapImage(new Uri("pack://application:,,,/app.ico"));
+            Icon = new BitmapImage(new Uri(RESOURCE_ICON));
 
             Visibility = Visibility.Hidden;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -69,7 +78,7 @@ namespace TeamsLauncher.UI
 
         private void SetupTrayIcon()
         {
-            var iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/app.ico"));
+            var iconStream = Application.GetResourceStream(new Uri(RESOURCE_ICON));
 
             _contextMenuStrip = new ContextMenuStrip();
 
@@ -78,7 +87,7 @@ namespace TeamsLauncher.UI
             _notifyIcon = new NotifyIcon
             {
                 Icon = new Icon(iconStream.Stream),
-                Text = "TeamsLauncher UI",
+                Text = TITLE,
                 ContextMenuStrip = _contextMenuStrip,
                 Visible = true
             };
@@ -131,7 +140,7 @@ namespace TeamsLauncher.UI
         private void LoadTeamsInstances()
         {
             var teamsInstances = 
-                XmlConvert.DeserializeObject<List<TeamsInstance>>("configuration.xml") 
+                XmlConvert.DeserializeObject<List<TeamsInstance>>(FILE_CONFIGURATION) 
                 ?? new List<TeamsInstance>();
             
             Instances = new ObservableCollection<TeamsInstance>(teamsInstances);
@@ -140,6 +149,13 @@ namespace TeamsLauncher.UI
         private void LaunchTeams(string teamsInstanceAlias = null)
         {
             TeamsHelper.Start(teamsInstanceAlias);
+        }
+
+        private string GetVersion()
+        {
+            Version version = Assembly.GetCallingAssembly().GetName().Version;
+
+            return $"v{version.Major}.{version.Minor}.{version.Build}";
         }
 
         private void BrowseIconButton_Click(object sender, RoutedEventArgs e)
@@ -168,18 +184,34 @@ namespace TeamsLauncher.UI
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)
         {
-            Instances.Add(new TeamsInstance
+            var newInstance = new TeamsInstance
             {
                 Icon = null,
                 DisplayName = "Default",
                 Alias = "Default",
                 Startup = false
-            });
+            };
+
+            Instances.Add(newInstance);
+
+            SelectedInstance = newInstance;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedInstance == null)
+            {
+                return;
+            }
+
+            var confirmResult = MessageBox.Show(
+                "Are you sure you want to delete the selected instance?",
+                "Delete instance",
+                MessageBoxButton.YesNo, 
+                MessageBoxImage.Question
+            );
+
+            if (confirmResult != MessageBoxResult.Yes)
             {
                 return;
             }
@@ -213,14 +245,14 @@ namespace TeamsLauncher.UI
 
         private void ApplyAndSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            XmlConvert.SerializeObject("configuration.xml", Instances.ToList());
+            XmlConvert.SerializeObject(FILE_CONFIGURATION, Instances.ToList());
 
             var instances = Instances
                 .Where(x => x.Startup)
                 .Select(x => x.Alias)
                 .ToArray();
 
-            File.WriteAllLines("instances.cfg", instances);
+            File.WriteAllLines(FILE_INSTANCES, instances);
 
             UpdateMenuStrip();
         }
