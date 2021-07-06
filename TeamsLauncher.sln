@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamsLauncher", "Src\TeamsLauncher\TeamsLauncher.csproj", "{8F86FAC6-EB09-4252-8279-512311B695AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamsLauncher.UI", "Src\TeamsLauncher.UI\TeamsLauncher.UI.csproj", "{7F7E680A-E08A-419B-BB48-2564D6F46B43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F86FAC6-EB09-4252-8279-512311B695AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F86FAC6-EB09-4252-8279-512311B695AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F86FAC6-EB09-4252-8279-512311B695AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F86FAC6-EB09-4252-8279-512311B695AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F7E680A-E08A-419B-BB48-2564D6F46B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7E680A-E08A-419B-BB48-2564D6F46B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7E680A-E08A-419B-BB48-2564D6F46B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7E680A-E08A-419B-BB48-2564D6F46B43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5E38F70-7D14-431D-B637-688BE5803632}
+	EndGlobalSection
+EndGlobal

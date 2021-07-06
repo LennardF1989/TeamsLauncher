@@ -1,0 +1,41 @@
+﻿<Window x:Class="TeamsLauncher.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="TeamsLauncher UI"
+        SizeToContent="WidthAndHeight"
+        MinWidth="400"
+        MinHeight="200">
+    <Window.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"></Binding>
+    </Window.DataContext>
+    <DockPanel Margin="10" LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <Button Content="Add new" Margin="0,0,10,0" Click="AddNewButton_Click" />
+            <Button Content="Delete" Margin="0,0,10,0" Click="DeleteButton_Click" IsEnabled="{Binding IsInstanceSelected}" />
+            <Button Content="Move up" Margin="0,0,10,0" Click="MoveUpButton_Click" IsEnabled="{Binding IsInstanceSelected}" />
+            <Button Content="Move down" Margin="0,0,10,0" Click="MoveDownButton_Click" IsEnabled="{Binding IsInstanceSelected}" />
+            <Button Content="Apply and Save" Click="ApplyAndSaveButton_Click" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0, 0, 0, 10" IsEnabled="{Binding IsInstanceSelected}">
+            <Label Content="Display name:" Margin="0, 0, 10, 0" /> 
+            <TextBox Text="{Binding SelectedInstance.DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="0, 0, 10, 0" />
+            <Label Content="Alias:" Margin="0, 0, 10, 0" /> 
+            <TextBox Text="{Binding SelectedInstance.Alias, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Use 'Default' to use the system installed Microsoft Teams profile." Width="100" Margin="0, 0, 10, 0" />
+            <CheckBox IsChecked="{Binding SelectedInstance.Startup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Startup" VerticalAlignment="Center" Margin="0, 0, 10, 0" />
+            <Button Content="Icon" Click="BrowseIconButton_Click" />
+        </StackPanel>
+        <ListView ItemsSource="{Binding Instances}" DisplayMemberPath="ListViewName" SelectedItem="{Binding SelectedInstance}" Margin="0,0,0, 10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Display name" Width="100" DisplayMemberBinding="{Binding DisplayName}" />
+                    <GridViewColumn Header="Alias" Width="75" DisplayMemberBinding="{Binding Alias}" />
+                    <GridViewColumn Header="Startup" Width="75" DisplayMemberBinding="{Binding Startup}" />
+                    <GridViewColumn Header="Icon" Width="75" DisplayMemberBinding="{Binding HasIcon}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>
