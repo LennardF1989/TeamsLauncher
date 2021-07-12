@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using TeamsLauncher.UI.Annotations;
 
@@ -7,8 +6,6 @@ namespace TeamsLauncher.UI.Models
 {
     public class TeamsInstance : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public string Icon
         {
             get => _icon;
@@ -16,7 +13,7 @@ namespace TeamsLauncher.UI.Models
             {
                 if (value == _icon) return;
                 _icon = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Icon));
 
                 OnPropertyChanged(nameof(HasIcon));
             }
@@ -29,7 +26,7 @@ namespace TeamsLauncher.UI.Models
             {
                 if (value == _displayName) return;
                 _displayName = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
 
@@ -40,7 +37,7 @@ namespace TeamsLauncher.UI.Models
             {
                 if (value == _alias) return;
                 _alias = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Alias));
             }
         }
 
@@ -51,7 +48,7 @@ namespace TeamsLauncher.UI.Models
             {
                 if (value == _startup) return;
                 _startup = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Startup));
             }
         }
 
@@ -62,9 +59,10 @@ namespace TeamsLauncher.UI.Models
         private string _alias;
         private bool _startup;
         private string _icon;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

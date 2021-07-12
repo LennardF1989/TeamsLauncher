@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
@@ -31,7 +30,7 @@ namespace TeamsLauncher.UI
             {
                 if (Equals(value, _selectedInstance)) return;
                 _selectedInstance = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedInstance));
                 
                 OnPropertyChanged(nameof(IsInstanceSelected));
             }
@@ -258,7 +257,7 @@ namespace TeamsLauncher.UI
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
